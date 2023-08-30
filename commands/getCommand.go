@@ -7,6 +7,7 @@
 package commands
 
 import (
+	"encoding/hex"
 	"github.com/liderman/leveldb-cli/cliutil"
 )
 
@@ -23,7 +24,11 @@ func Get(key, format string) string {
 		return AppError(ErrKeyIsEmpty)
 	}
 
-	value, err := dbh.Get([]byte(key), nil)
+	k,err := hex.DecodeString(key)
+	if err != nil {
+		return AppError(ErrKeyNotFound)
+	}
+	value, err := dbh.Get(k, nil)
 	if err != nil {
 		return AppError(ErrKeyNotFound)
 	}
