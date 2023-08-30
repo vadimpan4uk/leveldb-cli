@@ -25,7 +25,7 @@ public class Block {
 type Block struct {
 	ID []byte
 	Number int64
-	TransactionIds [][]byte
+	TransactionIds []byte
 }
 
 // The command get a value.
