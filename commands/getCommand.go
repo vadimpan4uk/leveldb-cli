@@ -50,13 +50,7 @@ func Get(key, format string) string {
 		return AppError(ErrKeyNotFound)
 	}
 
-	buf := &bytes.Buffer{}
-	_,err = buf.Read(value)
-	if err != nil {
-		fmt.Printf("value: %v %v", value, err)
-		return AppError(ErrFailedReadFromBuffer)
-	}
-
+	buf := bytes.NewBuffer(value)
 	block := &Block{}
 	if err := binary.Read(buf, binary.BigEndian, block); err != nil {
 		return AppError(ErrFailedDecodeBlock)
