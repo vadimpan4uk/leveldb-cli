@@ -23,9 +23,9 @@ public class Block {
 }
  */
 type Block struct {
-	id string
-	number int64
-	transactionIds []string
+	ID []byte
+	Number int64
+	TransactionIds [][]byte
 }
 
 // The command get a value.
