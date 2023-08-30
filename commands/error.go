@@ -18,6 +18,8 @@ const ErrKeyNotFound = 1007
 const FileWriteErr = 1008
 const ErrKeyFailedDecode = 1009
 const InternalError = 1010
+const ErrFailedDecodeBlock = 1011
+const ErrFailedReadFromBuffer = 1012
 
 // Error messages list
 var errorMessages = map[int]string{
@@ -31,6 +33,8 @@ var errorMessages = map[int]string{
 	FileWriteErr:             "Error writing file to disk",
 	ErrKeyFailedDecode: 	  "Failed to decode key from string to bytes",
 	InternalError: 			  "Something went wrong",
+	ErrFailedDecodeBlock: 	  "Couldn't decode block",
+	ErrFailedReadFromBuffer:  "Couldn't read from buffer",
 }
 
 // The wrapper for outputting errors in the application

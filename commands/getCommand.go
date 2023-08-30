@@ -58,7 +58,7 @@ func Get(key, format string) string {
 
 	block := &Block{}
 	if err := binary.Read(buf, binary.BigEndian, block); err != nil {
-		return AppError(InternalError)
+		return AppError(ErrFailedDecodeBlock)
 	}
 	fmt.Printf("Block: %v", block)
 
