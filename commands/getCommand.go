@@ -7,9 +7,26 @@
 package commands
 
 import (
+	"bytes"
+	"encoding/binary"
 	"encoding/hex"
+	"fmt"
 	"github.com/liderman/leveldb-cli/cliutil"
 )
+
+/**
+public class Block {
+
+  private String id;
+  private long number;
+  private List<String> transactionIds;
+}
+ */
+type Block struct {
+	id string
+	number int64
+	transactionIds string[]
+}
 
 // The command get a value.
 // It gets the value for the selected key.
@@ -24,7 +41,7 @@ func Get(key, format string) string {
 		return AppError(ErrKeyIsEmpty)
 	}
 
-	k,err := hex.DecodeString(key)
+	k, err := hex.DecodeString(key)
 	if err != nil {
 		return AppError(ErrKeyNotFound)
 	}
@@ -32,6 +49,18 @@ func Get(key, format string) string {
 	if err != nil {
 		return AppError(ErrKeyNotFound)
 	}
+
+	buf := &bytes.Buffer{}
+	_,err = buf.Read(value)
+	if err != nil {
+		return AppError(InternalError)
+	}
+
+	block := &Block{}
+	if err := binary.Read(buf, binary.BigEndian, block); err != nil {
+		return AppError(InternalError)
+	}
+	fmt.Printf("Block: %v", block)
 
 	return cliutil.ToString(format, value)
 }

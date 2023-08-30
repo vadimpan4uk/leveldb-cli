@@ -17,6 +17,7 @@ const ErrCouldNotCloseDatabase = 1006
 const ErrKeyNotFound = 1007
 const FileWriteErr = 1008
 const ErrKeyFailedDecode = 1009
+const InternalError = 1010
 
 // Error messages list
 var errorMessages = map[int]string{
@@ -29,6 +30,7 @@ var errorMessages = map[int]string{
 	ErrKeyNotFound:           "Key not found",
 	FileWriteErr:             "Error writing file to disk",
 	ErrKeyFailedDecode: 	  "Failed to decode key from string to bytes",
+	InternalError: 			  "Something went wrong",
 }
 
 // The wrapper for outputting errors in the application
