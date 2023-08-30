@@ -53,7 +53,7 @@ func Get(key, format string) string {
 	buf := &bytes.Buffer{}
 	_,err = buf.Read(value)
 	if err != nil {
-		fmt.Printf("value: %v", value)
+		fmt.Printf("value: %v %v", value, err)
 		return AppError(ErrFailedReadFromBuffer)
 	}
 
