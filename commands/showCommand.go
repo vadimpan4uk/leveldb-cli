@@ -14,6 +14,7 @@ import (
 	"github.com/syndtr/goleveldb/leveldb/iterator"
 	"github.com/syndtr/goleveldb/leveldb/util"
 	"text/tabwriter"
+ 	"encoding/hex"
 )
 
 // It shows the contents of the database prefix filtering.
@@ -87,7 +88,8 @@ func showByIterator(iter iterator.Iterator, format string, limit int) string {
 		key := iter.Key()
 		value := iter.Value()
 
-		fmt.Fprintf(w, "%s\t| %s\n", string(key), cliutil.ToString(format, value))
+		//fmt.Fprintf(w, "%s\t| %s\n", string(key), cliutil.ToString(format, value))
+		fmt.Fprintf(w, "%s\t| %s\n", hex.EncodeToString(key), cliutil.ToString(format, value))
 
 		count++
 		if limit != 0 && count >= limit {
