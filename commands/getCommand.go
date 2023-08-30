@@ -7,26 +7,12 @@
 package commands
 
 import (
-	"bytes"
-	"encoding/binary"
 	"encoding/hex"
 	"fmt"
 	"github.com/liderman/leveldb-cli/cliutil"
+	"github.com/liderman/leveldb-cli/github.com/tronprotocol/grpc-gateway/core"
+	"google.golang.org/protobuf/proto"
 )
-
-/**
-public class Block {
-
-  private String id;
-  private long number;
-  private List<String> transactionIds;
-}
- */
-type Block struct {
-	id string
-	number int64
-	transactionIds []byte
-}
 
 // The command get a value.
 // It gets the value for the selected key.
@@ -50,20 +36,20 @@ func Get(key, format string) string {
 		return AppError(ErrKeyNotFound)
 	}
 
-	buf := bytes.NewBuffer(value)
-	block := &Block{}
-	//if err := binary.Read(buf, binary.BigEndian, block); err != nil {
-	//	fmt.Printf("err: %v", err)
-	//	return AppError(ErrFailedDecodeBlock)
-	//}
-	if err := binary.Read(buf, binary.BigEndian, block); err != nil {
-		fmt.Printf("err1: %v", err)
-		//return AppError(ErrFailedDecodeBlock)
-	}
-	if err := binary.Read(buf, binary.LittleEndian, block); err != nil {
-		fmt.Printf("err2: %v", err)
+	block := &core.Block{}
+	protoErr := proto.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(value, block)
+	if protoErr != nil {
+		fmt.Printf("err1: %v", protoErr)
 		return AppError(ErrFailedDecodeBlock)
 	}
+	//if err := binary.Read(buf, binary.BigEndian, block); err != nil {
+	//	fmt.Printf("err1: %v", err)
+	//	//return AppError(ErrFailedDecodeBlock)
+	//}
+	//if err := binary.Read(buf, binary.LittleEndian, block); err != nil {
+	//	fmt.Printf("err2: %v", err)
+	//	return AppError(ErrFailedDecodeBlock)
+	//}
 	fmt.Printf("Block: %v", block)
 
 	return cliutil.ToString(format, value)
